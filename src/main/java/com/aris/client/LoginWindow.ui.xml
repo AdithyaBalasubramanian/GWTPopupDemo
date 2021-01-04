@@ -1,0 +1,33 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:b='urn:import:com.github.gwtbootstrap.client.ui'>
+
+    <g:DockLayoutPanel>
+        <g:center>
+            <g:HorizontalPanel spacing="10">
+                <g:HTMLPanel>
+                    <g:FormPanel>
+                        <b:Form>
+                            <b:Fieldset>
+                                <b:ControlGroup>
+                                    <b:ControlLabel>
+                                        <ui:text> Please Enter user name</ui:text>
+                                    </b:ControlLabel>
+                                    <b:TextBox ui:field="userName"/>
+                                    <b:ControlLabel>
+                                        <ui:text>
+                                            Please enter the password
+                                        </ui:text>
+                                    </b:ControlLabel>
+                                    <b:PasswordTextBox ui:field="password"/>
+                                    <b:Button ui:field="submit" text="Login"/>
+                                </b:ControlGroup>
+                            </b:Fieldset>
+                        </b:Form>
+                    </g:FormPanel>
+                </g:HTMLPanel>
+            </g:HorizontalPanel>
+        </g:center>
+    </g:DockLayoutPanel>
+
+</ui:UiBinder>
