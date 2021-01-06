@@ -24,9 +24,10 @@ _A sample project to showcase the GWT client Open ID Connect Flow_
 mvn clean install
 ```
 
-4. Go to the target folder where this war is available, and deploy it to the tomcat with
+4. From the same folder path deploy it to the tomcat with
 ```
 mvn tomcat7:deploy
 ```
 Once the war has been deployed, you can access the web-app @ http://localhost:8080/login
 
+![Alt text](src/Client_example.png?raw=true "Sample Screen")
