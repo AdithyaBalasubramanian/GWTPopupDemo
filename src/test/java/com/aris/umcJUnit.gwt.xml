@@ -10,6 +10,6 @@
   <inherits name='com.aris.umc'/>
 
   <!-- Specify the path to any remote services.                   -->
-  <servlet path="/umc/greet" class="com.aris.server.GreetingServiceImpl" />
+  <servlet path="/umc/greet" class="com.aris.server.ProcessMiningServletImpl" />
 
 </module>

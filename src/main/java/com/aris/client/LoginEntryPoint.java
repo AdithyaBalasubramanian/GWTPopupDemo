@@ -1,10 +1,9 @@
 package com.aris.client;
 
-import com.aris.shared.FieldVerifier;
+import com.aris.shared.Verifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.*;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 
@@ -23,15 +22,12 @@ public class LoginEntryPoint implements EntryPoint {
   /**
    * Create a remote service proxy to talk to the server-side Greeting service.
    */
-  private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
+  private final IProcessMiningServletAsync miningService = GWT.create(IProcessMiningServlet.class);
 
   /**
    * This is the entry point method.
    */
   public void onModuleLoad() {
-
-    consoleLog( "GWT.getModuleBaseURL() = " + GWT.getModuleBaseURL());
-    consoleLog( "GWT.getHostPageBaseURL() = " + GWT.getHostPageBaseURL());
 
     final Button logInWithAris = new Button("Log in with ARIS");
     final Button sendButton = new Button("Sign in");
@@ -56,36 +52,6 @@ public class LoginEntryPoint implements EntryPoint {
     nameField.setFocus(true);
     nameField.selectAll();
 
-
-    // Create the popup dialog box
-    final DialogBox dialogBox = new DialogBox();
-    dialogBox.setText("Remote Procedure Call");
-    dialogBox.setAnimationEnabled(true);
-    final Button closeButton = new Button("Close");
-    // We can set the id of a widget by accessing its Element
-    closeButton.getElement().setId("closeButton");
-    final Label textToServerLabel = new Label();
-    final HTML serverResponseLabel = new HTML();
-
-    VerticalPanel dialogVPanel = new VerticalPanel();
-    dialogVPanel.addStyleName("dialogVPanel");
-    dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
-    dialogVPanel.add(textToServerLabel);
-    dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
-    dialogVPanel.add(serverResponseLabel);
-    dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-    dialogVPanel.add(closeButton);
-    dialogBox.setWidget(dialogVPanel);
-
-    // Add a handler to close the DialogBox
-    closeButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        dialogBox.hide();
-        logInWithAris.setEnabled(true);
-        logInWithAris.setFocus(true);
-      }
-    });
-
     // Create a handler for the sendButton and nameField
     class MyHandler implements ClickHandler, KeyUpHandler {
       /**
@@ -95,7 +61,7 @@ public class LoginEntryPoint implements EntryPoint {
         String winUrl = GWT.getHostPageBaseURL().replace("landing", "login-popup");
         winUrl = "http://sbrapp10srv.eur.ad.sag/";
         String winName = "Testing Window";
-        openNewWindow(winName, winUrl);
+        openNewWindow(winUrl);
         // sendNameToServer();
       }
 
@@ -104,42 +70,31 @@ public class LoginEntryPoint implements EntryPoint {
        */
       public void onKeyUp(KeyUpEvent event) {
         if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-          sendNameToServer();
+          //sendNameToServer();
         }
       }
 
       /**
-       * Send the name from the nameField to the server and wait for a response.
+       * GWT method to make the RPC call and get back the async response
        */
       private void sendNameToServer() {
         // First, we validate the input.
         errorLabel.setText("");
         String textToServer = nameField.getText();
-        if (!FieldVerifier.isValidName(textToServer)) {
+        if (!Verifier.isValid(textToServer)) {
           errorLabel.setText("Please enter at least four characters");
           return;
         }
 
         // Then, we send the input to the server.
         logInWithAris.setEnabled(false);
-        textToServerLabel.setText(textToServer);
-        serverResponseLabel.setText("");
-        greetingService.greetServer(textToServer, new AsyncCallback<String>() {
+
+        miningService.redirectURI(textToServer, new AsyncCallback<String>() {
           public void onFailure(Throwable caught) {
             // Show the RPC error message to the user
-            dialogBox.setText("Remote Procedure Call - Failure");
-            serverResponseLabel.addStyleName("serverResponseLabelError");
-            serverResponseLabel.setHTML(SERVER_ERROR);
-            dialogBox.center();
-            closeButton.setFocus(true);
           }
 
           public void onSuccess(String result) {
-            dialogBox.setText("Remote Procedure Call");
-            serverResponseLabel.removeStyleName("serverResponseLabelError");
-            serverResponseLabel.setHTML(result);
-            dialogBox.center();
-            closeButton.setFocus(true);
           }
         });
       }
@@ -154,10 +109,9 @@ public class LoginEntryPoint implements EntryPoint {
   /**
    * Opens a new windows with a specified URL..
    *
-   * @param name String with the name of the window.
    * @param url String with your URL.
    */
-  public static void openNewWindow(String name, String url) {
+  public static void openNewWindow(String url) {
     String params = "menubar=no,location=false,resizable=yes,scrollbars=yes,status=no,dependent=true,width=1080,height=650";
     com.google.gwt.user.client.Window.open(url, "_blank", params);
   }
