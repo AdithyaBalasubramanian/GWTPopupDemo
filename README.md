@@ -29,5 +29,4 @@ mvn clean install
 mvn tomcat7:deploy
 ```
 Once the war has been deployed, you can access the web-app @ http://localhost:8080/login
-
 ![Alt text](src/Client_example.png?raw=true "Sample Screen")
