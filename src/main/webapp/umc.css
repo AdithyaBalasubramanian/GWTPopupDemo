@@ -1,18 +1,12 @@
 /** Add css rules here for your application. */
 
-/** Example rules used by the template application (remove for your app) */
-h1 {
-  font-size: 2em;
-  font-weight: bold;
-  color: #777777;
-  margin: 40px 0px 70px;
-  text-align: center;
-}
-
-.sendButton {
+.send-button {
   display: block;
-  font-size: 16pt;
-  font-family: Roboto, Geneva, sans-serif
+  font-size: 15px;
+  font-family: Roboto, Geneva, sans-serif;
+  margin: 20px 75px;
+  box-shadow: 0px 2px 3px #ccc;
+
 }
 
 /** Most GWT widgets already have a style name defined */
@@ -30,13 +24,53 @@ h1 {
 
 .aris-button {
   display: block;
-  font-size: 16pt;
+  font-size: 15px;
   color: white;
-  background: deepskyblue !important;
+  background: dodgerblue !important;
   font-family: Roboto, Geneva, sans-serif;
+  margin: 20px 75px;
+  box-shadow: 0px 2px 3px #ccc;
+
+}
+
+.details {
+  margin: 24px 28px;
+  border: 0px solid #eee;
+  box-shadow: 0 14px 36px #ccc;
+  padding: 80px;
+  text-align: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  color: deepskyblue;
+  margin: 40px 0px 70px;
+  text-align: center;
 }
 
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
   margin: 15px 6px 6px;
+}
+
+
+.content {
+  max-width: 500px;
+  margin: auto;
+}
+
+
+html, body {
+  height: 100%;
+}
+
+html {
+  display: table;
+  margin: auto;
+}
+
+body {
+  display: table-cell;
+  vertical-align: middle;
 }

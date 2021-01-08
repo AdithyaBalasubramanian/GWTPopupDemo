@@ -1,5 +1,6 @@
 package com.aris.client;
 
+import com.github.gwtbootstrap.client.ui.ControlGroup;
 import com.github.gwtbootstrap.client.ui.ControlLabel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -13,6 +14,8 @@ public class UserDetailsPresenter {
         ControlLabel getFirstNameLabel();
 
         ControlLabel getLastNameLabel();
+
+        ControlGroup getUserDetails();
 
         Widget asWidget();
     }
@@ -30,8 +33,9 @@ public class UserDetailsPresenter {
     }
 
     public void displayUser() {
-        display.getFirstNameLabel().getElement().setInnerHTML("First");
-        display.getLastNameLabel().getElement().setInnerHTML("Last");
-        display.getUserNameLabel().getElement().setInnerHTML("Name");
+        display.getUserDetails().setStyleName("details");
+        display.getFirstNameLabel().getElement().setInnerHTML("First Name");
+        display.getLastNameLabel().getElement().setInnerHTML("Last Name");
+        display.getUserNameLabel().getElement().setInnerHTML("User Id");
     }
 }

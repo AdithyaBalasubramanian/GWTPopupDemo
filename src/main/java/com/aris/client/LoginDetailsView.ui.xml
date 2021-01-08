@@ -1,0 +1,25 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:web='urn:import:com.github.gwtbootstrap.client.ui'
+             >
+    <g:DockLayoutPanel>
+        <g:center>
+            <g:ScrollPanel>
+                <g:VerticalPanel spacing="10">
+                    <g:HTMLPanel>
+                        <web:ControlLabel ui:field="titleCard"/>
+                        <web:ControlGroup ui:field="loginForm">
+                            <web:ControlLabel ui:field="userNameLabel"/>
+                            <web:TextBox ui:field="userNameTextBox"/>
+                            <web:ControlLabel ui:field="passwordLabel"/>
+                            <web:PasswordTextBox ui:field="passwordTextBox"/>
+                            <g:Button ui:field="signInButton"/>
+                            <g:Button ui:field="loginWithArisButton"/>
+                            <g:Button ui:field="userDetailsPageButton"/>
+                        </web:ControlGroup>
+                    </g:HTMLPanel>
+                </g:VerticalPanel>
+            </g:ScrollPanel>
+        </g:center>
+    </g:DockLayoutPanel>
+</ui:UiBinder>

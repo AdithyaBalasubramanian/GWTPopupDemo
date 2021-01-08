@@ -1,5 +1,6 @@
 package com.aris.client;
 
+import com.github.gwtbootstrap.client.ui.ControlGroup;
 import com.github.gwtbootstrap.client.ui.ControlLabel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -24,6 +25,9 @@ public class UserDetailsView extends Composite implements UserDetailsPresenter.D
     @UiField
     ControlLabel lastNameLabel;
 
+    @UiField
+    ControlGroup userDetails;
+
     @Override
     public ControlLabel getUserNameLabel() {
         return userNameLabel;
@@ -39,12 +43,17 @@ public class UserDetailsView extends Composite implements UserDetailsPresenter.D
         return lastNameLabel;
     }
 
+    public ControlGroup getUserDetails() {
+        return userDetails;
+    }
+
     public Widget asWidget() {
         return this;
     }
 
     public UserDetailsView() {
         DockLayoutPanel panel = binder.createAndBindUi(this);
+        panel.setStyleName("content");
         initWidget(panel);
     }
 }
