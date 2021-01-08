@@ -18,6 +18,6 @@ public class Verifier {
     if (name == null) {
       return false;
     }
-    return name.length() > 3;
+    return name.length() > 0;
   }
 }

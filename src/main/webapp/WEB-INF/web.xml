@@ -7,13 +7,13 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>greetServlet</servlet-name>
+    <servlet-name>redirectServlet</servlet-name>
     <servlet-class>com.aris.server.ProcessMiningServletImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/umc/greet</url-pattern>
+    <servlet-name>redirectServlet</servlet-name>
+    <url-pattern>/umc/redirect</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

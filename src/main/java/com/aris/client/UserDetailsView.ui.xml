@@ -1,0 +1,19 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:web='urn:import:com.github.gwtbootstrap.client.ui'>
+    <g:DockLayoutPanel>
+        <g:center>
+            <g:ScrollPanel>
+                <g:VerticalPanel spacing="10">
+                    <g:HTMLPanel>
+                        <web:ControlLabel ui:field="firstNameLabel"/>
+                        <web:ControlLabel ui:field="lastNameLabel"/>
+                        <web:ControlLabel ui:field="userNameLabel"/>
+                    </g:HTMLPanel>
+                </g:VerticalPanel>
+            </g:ScrollPanel>
+        </g:center>
+
+    </g:DockLayoutPanel>
+
+</ui:UiBinder>

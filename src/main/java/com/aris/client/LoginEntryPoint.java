@@ -29,6 +29,8 @@ public class LoginEntryPoint implements EntryPoint {
    */
   public void onModuleLoad() {
 
+    final UserDetailsPresenter presenter = new UserDetailsPresenter();
+
     final Button logInWithAris = new Button("Log in with ARIS");
     final Button sendButton = new Button("Sign in");
     final TextBox nameField = new TextBox();
@@ -62,6 +64,7 @@ public class LoginEntryPoint implements EntryPoint {
         winUrl = "http://sbrapp10srv.eur.ad.sag/";
         String winName = "Testing Window";
         openNewWindow(winUrl);
+        presenter.go(RootPanel.get());
         // sendNameToServer();
       }
 
@@ -75,26 +78,28 @@ public class LoginEntryPoint implements EntryPoint {
       }
 
       /**
-       * GWT method to make the RPC call and get back the async response
+       * Callback to the method which will provide the usersDetails
        */
       private void sendNameToServer() {
-        // First, we validate the input.
+
         errorLabel.setText("");
-        String textToServer = nameField.getText();
-        if (!Verifier.isValid(textToServer)) {
-          errorLabel.setText("Please enter at least four characters");
+        //Need to get the auth code correctly
+        String authCode = nameField.getText();
+        if (!Verifier.isValid(authCode)) {
+          errorLabel.setText("Please provide valid Auth Code");
           return;
         }
 
-        // Then, we send the input to the server.
         logInWithAris.setEnabled(false);
 
-        miningService.redirectURI(textToServer, new AsyncCallback<String>() {
+        //How to get this servlet exposed to the outside world ?!
+        miningService.redirectURI(authCode, new AsyncCallback<String>() {
           public void onFailure(Throwable caught) {
             // Show the RPC error message to the user
           }
 
           public void onSuccess(String result) {
+            presenter.go(RootPanel.get());
           }
         });
       }
@@ -114,6 +119,10 @@ public class LoginEntryPoint implements EntryPoint {
   public static void openNewWindow(String url) {
     String params = "menubar=no,location=false,resizable=yes,scrollbars=yes,status=no,dependent=true,width=1080,height=650";
     com.google.gwt.user.client.Window.open(url, "_blank", params);
+    //After opening this window, we need to get the callback to the redirect uri
+    //which is hosted by the redirect servlet
+    //the servlet will have an HTTPClient to make further calls to the Auth Server
+    //to get the Auth Code, and AccessToken + UserInfo
   }
 
   native void consoleLog( String message) /*-{
