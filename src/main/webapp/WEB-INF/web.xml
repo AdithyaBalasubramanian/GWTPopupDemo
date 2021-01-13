@@ -15,7 +15,21 @@
     <servlet-name>redirectServlet</servlet-name>
     <url-pattern>/umc/redirect</url-pattern>
   </servlet-mapping>
-  
+
+  <filter>
+    <filter-name>urlForwardingFilter</filter-name>
+    <filter-class>com.aris.server.AdminURLForwardFilter</filter-class>
+    <init-param>
+    <param-name>uriWhitelist</param-name>
+    <param-value>/umc/redirect.html, /umc/redirect</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>urlForwardingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

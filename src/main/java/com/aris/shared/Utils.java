@@ -30,5 +30,9 @@ public class Utils {
                 ">", "&gt;");
     }
 
+    public native static void consoleLog( String message) /*-{
+        console.log( "me:" + message );
+    }-*/;
+
 
 }

@@ -22,9 +22,4 @@ public class LoginEntryPoint implements EntryPoint {
     loginDetailsPresenter.go(container);
 
   }
-
-
-  native void consoleLog( String message) /*-{
-    console.log( "me:" + message );
-  }-*/;
 }

@@ -12,6 +12,6 @@ import java.io.UnsupportedEncodingException;
 @RemoteServiceRelativePath("redirect")
 public interface IProcessMiningServlet extends RemoteService {
 
-  String redirectURI(String name) throws IllegalArgumentException, IOException;
+  String redirectURI(String name, String hostName) throws IllegalArgumentException, IOException;
 
 }

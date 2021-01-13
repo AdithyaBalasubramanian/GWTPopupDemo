@@ -46,7 +46,7 @@ public class LoginEntryPointTest extends GWTTestCase {
     delayTestFinish(10000);
 
     // Send a request to the server.
-    greetingService.redirectURI("GWT User", new AsyncCallback<String>() {
+    greetingService.redirectURI("GWT User", "", new AsyncCallback<String>() {
       public void onFailure(Throwable caught) {
         // The request resulted in an unexpected error.
         fail("Request failure: " + caught.getMessage());

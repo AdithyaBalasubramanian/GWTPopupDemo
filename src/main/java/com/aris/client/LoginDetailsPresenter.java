@@ -5,15 +5,16 @@ import com.github.gwtbootstrap.client.ui.ControlLabel;
 import com.github.gwtbootstrap.client.ui.PasswordTextBox;
 import com.github.gwtbootstrap.client.ui.TextBox;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class LoginDetailsPresenter {
+import static com.aris.shared.Utils.consoleLog;
 
-    private final IProcessMiningServletAsync miningService = GWT.create(IProcessMiningServlet.class);
+public class LoginDetailsPresenter {
 
     public interface Display {
 
@@ -59,13 +60,14 @@ public class LoginDetailsPresenter {
         display.getUserDetailsPageButton().setStyleName("send-button");
 
         display.getLoginWithArisButton().addClickHandler(clickEvent -> {
-          /*
-           String winUrl = GWT.getHostPageBaseURL().replace("landing", "login-popup");
-           String winName = "Testing Window";
-           */
+
             String winUrl = "http://sbrapp10srv.eur.ad.sag/umc";
+            //Need to get the new UMC login page that has been developed
+            winUrl = "http://localhost/umc";
             openNewWindow(winUrl);
-            callbackURI();
+            consoleLog("returned back to click handler");
+            //For the callBackURI, need to send the well known endpoints URL
+            //callbackURI("AuthCode", winUrl);
         });
 
         display.getUserDetailsPageButton().addClickHandler(clickEvent -> {
@@ -75,6 +77,8 @@ public class LoginDetailsPresenter {
         });
     }
 
+
+
     public void go(HasWidgets container) {
         container.clear();
 
@@ -82,15 +86,22 @@ public class LoginDetailsPresenter {
     }
 
     private void openNewWindow(String url) {
-        String params = "menubar=no,location=false,resizable=yes,scrollbars=yes,status=no,dependent=true,width=1080,height=650";
-        com.google.gwt.user.client.Window.open(url, "_blank", params);
+        String params = "menubar=no,location=false,resizable=yes,scrollbars=yes,status=no,dependent=true,width=1200,height=720";
+        Window.open(url, "_blank", params);
+
+        Window.addWindowClosingHandler(closeEvent -> {
+            consoleLog("Window closed" + closeEvent.toString());
+        });
+
         //After opening this window, we need to get the callback to the redirect uri
         //which is hosted by the redirect servlet
         //the servlet will have an HTTPClient to make further calls to the Auth Server
         //to get the Auth Code, and AccessToken + UserInfo
     }
 
-    private void callbackURI() {
+
+
+    private void callbackURI(String authCode, String hostName) {
         /*
         String authCode = nameField.getText();
         if (!Verifier.isValid(authCode)) {
@@ -100,7 +111,7 @@ public class LoginDetailsPresenter {
         */
 
         //How to get this servlet exposed to the outside world ?!
-        miningService.redirectURI("authCode", new AsyncCallback<String>() {
+        Model.SERVICE.redirectURI(authCode, hostName, new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
                 // Show the RPC error message to the user
             }
