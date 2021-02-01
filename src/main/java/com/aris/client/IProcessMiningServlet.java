@@ -1,10 +1,10 @@
 package com.aris.client;
 
+import com.aris.shared.Person;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 /**
  * The client-side stub for the RPC service.
@@ -12,6 +12,6 @@ import java.io.UnsupportedEncodingException;
 @RemoteServiceRelativePath("redirect")
 public interface IProcessMiningServlet extends RemoteService {
 
-  String redirectURI(String name, String hostName) throws IllegalArgumentException, IOException;
+  Person redirectURI(String authCode, String hostName) throws IllegalArgumentException, IOException;
 
 }

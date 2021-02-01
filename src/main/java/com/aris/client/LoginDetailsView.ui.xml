@@ -15,7 +15,7 @@
                             <web:PasswordTextBox ui:field="passwordTextBox"/>
                             <g:Button ui:field="signInButton"/>
                             <g:Button ui:field="loginWithArisButton"/>
-                            <g:Button ui:field="userDetailsPageButton"/>
+<!--                            <g:Button ui:field="userDetailsPageButton"/>-->
                         </web:ControlGroup>
                     </g:HTMLPanel>
                 </g:VerticalPanel>

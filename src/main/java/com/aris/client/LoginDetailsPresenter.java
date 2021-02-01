@@ -1,5 +1,6 @@
 package com.aris.client;
 
+import com.aris.shared.Person;
 import com.github.gwtbootstrap.client.ui.ControlGroup;
 import com.github.gwtbootstrap.client.ui.ControlLabel;
 import com.github.gwtbootstrap.client.ui.PasswordTextBox;
@@ -11,6 +12,8 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import java.util.Arrays;
 
 import static com.aris.shared.Utils.consoleLog;
 
@@ -34,7 +37,7 @@ public class LoginDetailsPresenter {
 
         Button getLoginWithArisButton();
 
-        Button getUserDetailsPageButton();
+       /* Button getUserDetailsPageButton();*/
 
         Widget asWidget();
 
@@ -56,25 +59,39 @@ public class LoginDetailsPresenter {
         display.getSignInButton().setStyleName("send-button");
         display.getLoginWithArisButton().setText("Login with ARIS");
         display.getLoginWithArisButton().setStyleName("aris-button");
-        display.getUserDetailsPageButton().getElement().setInnerHTML("User Details");
-        display.getUserDetailsPageButton().setStyleName("send-button");
+        /*display.getUserDetailsPageButton().getElement().setInnerHTML("User Details");
+        display.getUserDetailsPageButton().setStyleName("send-button");*/
 
         display.getLoginWithArisButton().addClickHandler(clickEvent -> {
-
+            consoleLog("Click handler invoked");
             String winUrl = "http://sbrapp10srv.eur.ad.sag/umc";
             //Need to get the new UMC login page that has been developed
-            winUrl = "http://localhost/umc";
-            openNewWindow(winUrl);
-            consoleLog("returned back to click handler");
+            winUrl = "10.248.91.205";
+            //openNewWindow(winUrl);
+            consoleLog("Invoking callback URI");
+            Model.SERVICE.redirectURI("authCode", winUrl, new AsyncCallback<Person>() {
+                @Override
+                public void onFailure(Throwable throwable) {
+                    consoleLog(Arrays.toString(throwable.getStackTrace()));
+                }
+
+                @Override
+                public void onSuccess(Person person) {
+                    consoleLog("Successful callback...");
+                    RootLayoutPanel container = RootLayoutPanel.get();
+                    container.clear();
+                    userDetailsPresenter.go(container, person);
+                }
+            });
             //For the callBackURI, need to send the well known endpoints URL
             //callbackURI("AuthCode", winUrl);
         });
 
-        display.getUserDetailsPageButton().addClickHandler(clickEvent -> {
+       /* display.getUserDetailsPageButton().addClickHandler(clickEvent -> {
             RootLayoutPanel container = RootLayoutPanel.get();
             container.clear();
-            userDetailsPresenter.go(container);
-        });
+            userDetailsPresenter.go(container, new Person("sampleUserId", "sampleFN", "sampleLN"));
+        });*/
     }
 
 
@@ -111,12 +128,12 @@ public class LoginDetailsPresenter {
         */
 
         //How to get this servlet exposed to the outside world ?!
-        Model.SERVICE.redirectURI(authCode, hostName, new AsyncCallback<String>() {
+        Model.SERVICE.redirectURI(authCode, hostName, new AsyncCallback<Person>() {
             public void onFailure(Throwable caught) {
                 // Show the RPC error message to the user
             }
 
-            public void onSuccess(String result) {
+            public void onSuccess(Person result) {
                 //presenter.go(RootPanel.get());
             }
         });

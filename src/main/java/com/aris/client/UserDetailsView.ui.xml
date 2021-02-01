@@ -7,9 +7,9 @@
                 <g:VerticalPanel spacing="10">
                     <g:HTMLPanel>
                         <web:ControlGroup ui:field="userDetails">
+                            <web:ControlLabel ui:field="userNameLabel"/>
                             <web:ControlLabel ui:field="firstNameLabel"/>
                             <web:ControlLabel ui:field="lastNameLabel"/>
-                            <web:ControlLabel ui:field="userNameLabel"/>
                         </web:ControlGroup>
                     </g:HTMLPanel>
                 </g:VerticalPanel>

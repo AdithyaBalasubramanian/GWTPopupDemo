@@ -42,8 +42,8 @@ public class LoginDetailsView extends Composite implements LoginDetailsPresenter
     @UiField
     Button signInButton;
 
-    @UiField
-    Button userDetailsPageButton;
+    /*@UiField
+    Button userDetailsPageButton;*/
 
     @Override
     public ControlLabel getTitleCard() {
@@ -75,11 +75,11 @@ public class LoginDetailsView extends Composite implements LoginDetailsPresenter
         return loginWithArisButton;
     }
 
-    @Override
+   /* @Override
     public com.google.gwt.user.client.ui.Button getUserDetailsPageButton() {
         return userDetailsPageButton;
     }
-
+*/
     @Override
     public ControlLabel getUserNameLabel() {
         return userNameLabel;

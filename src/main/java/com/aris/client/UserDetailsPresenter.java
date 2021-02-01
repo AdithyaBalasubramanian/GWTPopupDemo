@@ -1,5 +1,6 @@
 package com.aris.client;
 
+import com.aris.shared.Person;
 import com.github.gwtbootstrap.client.ui.ControlGroup;
 import com.github.gwtbootstrap.client.ui.ControlLabel;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -26,16 +27,16 @@ public class UserDetailsPresenter {
         this.display = new UserDetailsView();
     }
 
-    public void go(final HasWidgets container) {
+    public void go(final HasWidgets container, final Person person) {
         container.clear();
-        displayUser();
+        displayUser(person);
         container.add(display.asWidget());
     }
 
-    public void displayUser() {
+    public void displayUser(Person person) {
         display.getUserDetails().setStyleName("details");
-        display.getFirstNameLabel().getElement().setInnerHTML("First Name");
-        display.getLastNameLabel().getElement().setInnerHTML("Last Name");
-        display.getUserNameLabel().getElement().setInnerHTML("User Id");
+        display.getUserNameLabel().getElement().setInnerHTML("User ID = " + person.getUserId());
+        display.getFirstNameLabel().getElement().setInnerHTML("First Name = " + person.getFirstName());
+        display.getLastNameLabel().getElement().setInnerHTML("Last Name = " + person.getLastName());
     }
 }
