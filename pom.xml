@@ -4,11 +4,11 @@
 
   <!-- POM file generated with GWT webAppCreator -->
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.aris</groupId>
+  <groupId>com.aris.admin</groupId>
   <artifactId>umc</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>com.aris.umc</name>
+  <name>com.aris.admin.umc</name>
 
   <properties>
 
@@ -87,6 +87,7 @@
 
   </dependencies>
 
+
   <build>
     <!-- Output classes directly into the webapp, so that IDEs and "mvn process-classes" update them in DevMode -->
     <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</outputDirectory>
@@ -98,35 +99,51 @@
         <groupId>net.ltgt.gwt.maven</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
         <version>1.0.0</version>
-        <executions>
-          <execution>
+         <!-- <execution>
             <goals>
               <goal>compile</goal>
               <goal>test</goal>
             </goals>
+          </execution>-->
+        <executions>
+
+          <execution>
+            <id>GWT Build 1</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <moduleName>com.aris.admin.login</moduleName>
+            </configuration>
           </execution>
+
+         <!-- <execution>
+            <id>GWT Build 2</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <moduleName>com.aris.admin.userinfo</moduleName>
+            </configuration>
+          </execution>-->
+
         </executions>
-        <configuration>
+        <!--<configuration>
           <moduleName>com.aris.umc</moduleName>
           <moduleShortName>umc</moduleShortName>
           <failOnError>true</failOnError>
-          <!-- GWT compiler 2.8 requires 1.8, hence define sourceLevel here if you use
-               a different source language for java compilation -->
+
           <sourceLevel>1.8</sourceLevel>
-          <!-- Compiler configuration -->
           <compilerArgs>
-            <!-- Ask GWT to create the Story of Your Compile (SOYC) (gwt:compile) -->
             <arg>-compileReport</arg>
             <arg>-XcompilerMetrics</arg>
           </compilerArgs>
-          <!-- DevMode configuration -->
           <warDir>${project.build.directory}/${project.build.finalName}</warDir>
           <classpathScope>compile+runtime</classpathScope>
-          <!-- URL(s) that should be opened by DevMode (gwt:devmode). -->
           <startupUrls>
             <startupUrl>index.html</startupUrl>
           </startupUrls>
-        </configuration>
+        </configuration>-->
       </plugin>
 
       <!-- Skip normal test execution, we use gwt:test instead -->
@@ -146,7 +163,7 @@
         <configuration>
           <url>http://localhost:8080/manager/text</url>
           <server>TomcatServer</server>
-          <path>/login</path>
+          <path>/umc</path>
           <username>admin</username>
           <password>password</password>
         </configuration>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to="login">
+    <inherits name="com.aris.admin.umcBase"/>
+    <!-- Specify the app entry point class.                         -->
+    <entry-point class='com.aris.admin.client.LoginEntryPoint'/>
+</module>

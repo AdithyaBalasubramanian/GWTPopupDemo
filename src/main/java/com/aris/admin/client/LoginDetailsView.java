@@ -1,4 +1,4 @@
-package com.aris.client;
+package com.aris.admin.client;
 
 import com.github.gwtbootstrap.client.ui.ControlGroup;
 import com.github.gwtbootstrap.client.ui.ControlLabel;

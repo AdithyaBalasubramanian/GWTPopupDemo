@@ -1,12 +1,13 @@
-package com.aris.client;
+package com.aris.admin.client;
 
-import com.aris.shared.Person;
+
+import com.aris.admin.shared.Person;
 import com.github.gwtbootstrap.client.ui.ControlGroup;
 import com.github.gwtbootstrap.client.ui.ControlLabel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UserDetailsPresenter {
+public class UserInfoPresenter {
 
     public interface Display {
 
@@ -23,12 +24,13 @@ public class UserDetailsPresenter {
 
     private final Display display;
 
-    public UserDetailsPresenter() {
-        this.display = new UserDetailsView();
+    public UserInfoPresenter() {
+        this.display = new UserInfoView();
     }
 
     public void go(final HasWidgets container, final Person person) {
         container.clear();
+
         displayUser(person);
         container.add(display.asWidget());
     }

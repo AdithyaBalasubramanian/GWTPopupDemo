@@ -7,9 +7,9 @@
   "http://gwtproject.org/doctype/2.9.0/gwt-module.dtd">
 <module rename-to='umc'>
   <!-- Inherit our applications main module.                      -->
-  <inherits name='com.aris.umc'/>
+  <inherits name='com.aris.admin.loginbase'/>
 
   <!-- Specify the path to any remote services.                   -->
-  <servlet path="/umc/greet" class="com.aris.server.ProcessMiningServletImpl" />
+  <servlet path="/umc/greet" class="com.aris.admin.server.ProcessMiningServletImpl" />
 
 </module>

@@ -1,7 +1,8 @@
-package com.aris.client;
+package com.aris.admin.client;
 
-import com.aris.shared.Person;
-import com.aris.shared.Verifier;
+
+import com.aris.admin.shared.Person;
+import com.aris.admin.shared.Verifier;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.rpc.AsyncCallback;

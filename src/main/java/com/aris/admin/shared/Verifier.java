@@ -1,4 +1,4 @@
-package com.aris.shared;
+package com.aris.admin.shared;
 
 
 public class Verifier {

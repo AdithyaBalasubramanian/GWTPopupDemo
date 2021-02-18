@@ -1,6 +1,5 @@
-package com.aris.server;
+package com.aris.admin.server;
 
-import com.aris.client.Model;
 
 public class MiningResource {
 

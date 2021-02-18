@@ -1,6 +1,7 @@
-package com.aris;
+package com.aris.admin;
 
-import com.aris.client.LoginEntryPointTest;
+
+import com.aris.admin.client.LoginEntryPointTest;
 import com.google.gwt.junit.tools.GWTTestSuite;
 import junit.framework.Test;
 import junit.framework.TestSuite;

@@ -7,28 +7,38 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>redirectServlet</servlet-name>
-    <servlet-class>com.aris.server.ProcessMiningServletImpl</servlet-class>
+    <servlet-name>pathServlet</servlet-name>
+    <servlet-class>com.aris.admin.servlet.UserServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>redirectServlet</servlet-name>
-    <url-pattern>/umc/redirect</url-pattern>
+    <servlet-name>pathServlet</servlet-name>
+    <url-pattern>/userinfo1</url-pattern>
   </servlet-mapping>
 
-  <filter>
-    <filter-name>urlForwardingFilter</filter-name>
-    <filter-class>com.aris.server.AdminURLForwardFilter</filter-class>
-    <init-param>
-    <param-name>uriWhitelist</param-name>
-    <param-value>/umc/redirect.html, /umc/redirect</param-value>
-    </init-param>
-  </filter>
+  <servlet>
+    <servlet-name>servlet</servlet-name>
+    <servlet-class>com.aris.admin.servlet.Server</servlet-class>
+  </servlet>
 
-  <filter-mapping>
+  <servlet-mapping>
+    <servlet-name>servlet</servlet-name>
+    <url-pattern>/redirect</url-pattern>
+  </servlet-mapping>
+
+  <!--<filter-mapping>
     <filter-name>urlForwardingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+
+  <filter>
+    <filter-name>urlForwardingFilter</filter-name>
+    <filter-class>com.aris.admin.server.AdminURLForwardFilter</filter-class>
+    <init-param>
+    <param-name>uriWhitelist</param-name>
+    <param-value>/umc/userinfo.html, /umc/userinfo, /umc/index.html, /umc/login</param-value>
+    </init-param>
+  </filter>-->
 
   <!-- Default page to serve -->
   <welcome-file-list>

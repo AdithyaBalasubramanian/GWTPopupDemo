@@ -1,4 +1,4 @@
-package com.aris.client;
+package com.aris.admin.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;

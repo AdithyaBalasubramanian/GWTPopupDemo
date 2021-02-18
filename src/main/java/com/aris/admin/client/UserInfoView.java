@@ -1,4 +1,4 @@
-package com.aris.client;
+package com.aris.admin.client;
 
 import com.github.gwtbootstrap.client.ui.ControlGroup;
 import com.github.gwtbootstrap.client.ui.ControlLabel;
@@ -10,10 +10,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class UserDetailsView extends Composite implements UserDetailsPresenter.Display {
+public class UserInfoView extends Composite implements UserInfoPresenter.Display {
 
-    @UiTemplate("UserDetailsView.ui.xml")
-    interface Binder extends UiBinder<DockLayoutPanel, UserDetailsView> {}
+    @UiTemplate("UserInfoView.ui.xml")
+    interface Binder extends UiBinder<DockLayoutPanel, UserInfoView> {}
     private static final Binder binder = GWT.create(Binder.class);
 
     @UiField
@@ -51,7 +51,7 @@ public class UserDetailsView extends Composite implements UserDetailsPresenter.D
         return this;
     }
 
-    public UserDetailsView() {
+    public UserInfoView() {
         DockLayoutPanel panel = binder.createAndBindUi(this);
         panel.setStyleName("content");
         initWidget(panel);

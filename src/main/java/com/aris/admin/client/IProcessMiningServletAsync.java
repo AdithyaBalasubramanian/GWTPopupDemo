@@ -1,6 +1,7 @@
-package com.aris.client;
+package com.aris.admin.client;
 
-import com.aris.shared.Person;
+
+import com.aris.admin.shared.Person;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -8,6 +9,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface IProcessMiningServletAsync {
   void redirectURI(String authCode, String hostName, AsyncCallback<Person> callback)
+      throws IllegalArgumentException;
+  void readPersonFromFile(String fileName, AsyncCallback<Person> callback)
       throws IllegalArgumentException;
 
 }
