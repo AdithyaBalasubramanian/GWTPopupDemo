@@ -9,6 +9,18 @@
                     <g:HTMLPanel>
                         <web:ControlLabel ui:field="titleCard"/>
                         <web:ControlGroup ui:field="loginForm">
+                            <web:ControlLabel ui:field="hostNameLabel"/>
+                            <web:TextBox ui:field="hostNameTextBox"/>
+                            <web:ControlLabel ui:field="grantTypeLabel"/>
+                            <web:TextBox ui:field="grantTypeTextBox"/>
+                            <web:ControlLabel ui:field="clientIdLabel"/>
+                            <web:TextBox ui:field="clientIdTextBox"/>
+                            <web:ControlLabel ui:field="tenantLabel"/>
+                            <web:TextBox ui:field="tenantTextBox"/>
+                            <web:ControlLabel ui:field="localeLabel"/>
+                            <web:TextBox ui:field="localeTextBox"/>
+                            <web:ControlLabel ui:field="redirectUrlLabel"/>
+                            <web:TextBox ui:field="redirectUrlTextBox"/>
                             <web:ControlLabel ui:field="userNameLabel"/>
                             <web:TextBox ui:field="userNameTextBox"/>
                             <web:ControlLabel ui:field="passwordLabel"/>

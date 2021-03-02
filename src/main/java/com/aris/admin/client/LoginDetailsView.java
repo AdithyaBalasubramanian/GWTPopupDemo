@@ -25,6 +25,42 @@ public class LoginDetailsView extends Composite implements LoginDetailsPresenter
     ControlGroup loginForm;
 
     @UiField
+    ControlLabel hostNameLabel;
+
+    @UiField
+    TextBox hostNameTextBox;
+
+    @UiField
+    ControlLabel grantTypeLabel;
+
+    @UiField
+    TextBox grantTypeTextBox;
+
+    @UiField
+    ControlLabel clientIdLabel;
+
+    @UiField
+    TextBox clientIdTextBox;
+
+    @UiField
+    ControlLabel tenantLabel;
+
+    @UiField
+    TextBox tenantTextBox;
+
+    @UiField
+    ControlLabel localeLabel;
+
+    @UiField
+    TextBox localeTextBox;
+
+    @UiField
+    ControlLabel redirectUrlLabel;
+
+    @UiField
+    TextBox redirectUrlTextBox;
+
+    @UiField
     TextBox userNameTextBox;
 
     @UiField
@@ -75,11 +111,71 @@ public class LoginDetailsView extends Composite implements LoginDetailsPresenter
         return loginWithArisButton;
     }
 
-   /* @Override
-    public com.google.gwt.user.client.ui.Button getUserDetailsPageButton() {
-        return userDetailsPageButton;
+    @Override
+    public ControlLabel getHostNameLabel() {
+        return hostNameLabel;
     }
-*/
+
+    @Override
+    public TextBox getUserHostNameTextBox() {
+        return hostNameTextBox;
+    }
+
+    @Override
+    public ControlLabel getGrantTypeLabel() {
+        return grantTypeLabel;
+    }
+
+    @Override
+    public TextBox getGrantTypeTextBox() {
+        return grantTypeTextBox;
+    }
+
+    @Override
+    public ControlLabel getClientIdLabel() {
+        return clientIdLabel;
+    }
+
+    @Override
+    public TextBox getClientIdTextBox() {
+        return clientIdTextBox;
+    }
+
+    @Override
+    public ControlLabel getTenantLabel() {
+        return tenantLabel;
+    }
+
+    @Override
+    public TextBox getTenantTextBox() {
+        return tenantTextBox;
+    }
+
+    @Override
+    public ControlLabel getLocaleLabel() {
+        return localeLabel;
+    }
+
+    @Override
+    public TextBox getLocaleTextBox() {
+        return localeTextBox;
+    }
+
+    @Override
+    public ControlLabel getRedirectUrlLabel() {
+        return redirectUrlLabel;
+    }
+
+    @Override
+    public TextBox getRedirectUrlTextBox() {
+        return redirectUrlTextBox;
+    }
+
+    /* @Override
+        public com.google.gwt.user.client.ui.Button getUserDetailsPageButton() {
+            return userDetailsPageButton;
+        }
+    */
     @Override
     public ControlLabel getUserNameLabel() {
         return userNameLabel;

@@ -1,6 +1,7 @@
 package com.aris.admin.client;
 
 
+import com.aris.admin.shared.WindowProps;
 import com.github.gwtbootstrap.client.ui.ControlGroup;
 import com.github.gwtbootstrap.client.ui.ControlLabel;
 import com.github.gwtbootstrap.client.ui.PasswordTextBox;
@@ -23,6 +24,30 @@ public class LoginDetailsPresenter {
 
         TextBox getUserNameTextBox();
 
+        ControlLabel getHostNameLabel();
+
+        TextBox getUserHostNameTextBox();
+
+        ControlLabel getGrantTypeLabel();
+
+        TextBox getGrantTypeTextBox();
+
+        ControlLabel getClientIdLabel();
+
+        TextBox getClientIdTextBox();
+
+        ControlLabel getTenantLabel();
+
+        TextBox getTenantTextBox();
+
+        ControlLabel getLocaleLabel();
+
+        TextBox getLocaleTextBox();
+
+        ControlLabel getRedirectUrlLabel();
+
+        TextBox getRedirectUrlTextBox();
+
         ControlLabel getPasswordLabel();
 
         PasswordTextBox getPasswordTextBox();
@@ -44,8 +69,17 @@ public class LoginDetailsPresenter {
         display.getTitleCard().setStyleName("title");
 
         display.getLogInForm().setStyleName("details");
+        display.getHostNameLabel().getElement().setInnerHTML("Enter the hostName of the Auth Server: ");
+        display.getGrantTypeLabel().getElement().setInnerHTML("Enter the grant Type of the application: ");
+        display.getClientIdLabel().getElement().setInnerHTML("Enter the client Id of the application: ");
+        display.getTenantLabel().getElement().setInnerHTML("Enter the tenant Name: ");
+        display.getTenantTextBox().setText("default");
+        display.getLocaleLabel().getElement().setInnerHTML("Enter the locale: ");
+        display.getLocaleTextBox().setText("English");
+        display.getRedirectUrlLabel().getElement().setInnerHTML("Enter the redirectUrl for the client application: ");
+
         display.getUserNameLabel().getElement().setInnerHTML("Enter your username: ");
-        display.getUserNameTextBox().getElement().setInnerHTML("system");
+        display.getUserNameTextBox().setText("system");
         display.getPasswordLabel().getElement().setInnerHTML("Enter your password: ");
         display.getSignInButton().setText("Sign in");
         display.getSignInButton().setStyleName("send-button");
@@ -54,15 +88,16 @@ public class LoginDetailsPresenter {
 
 
         display.getLoginWithArisButton().addClickHandler(clickEvent -> {
-            String hostName = "http://10.248.91.205/umc/oauthLogin";
-            String grantType = "authorization_code";
-            String clientId = "2de8e473-6e51-438c-aafa-6ae3e0c94ea5";
-            String tenant = "default";
-            String locale = "English";
-            String redirectUrl = "http://localhost:8080/umc/redirect";
-            String userInfoUrl = "http://localhost:8080/umc/userinfo1";
+            //TODO part of the UI
+            String hostName = display.getUserHostNameTextBox().getText();
+            String grantType = display.getGrantTypeTextBox().getText();
+            String clientId = display.getClientIdTextBox().getText();
+            String tenant = display.getTenantTextBox().getText();
+            String locale = display.getLocaleTextBox().getText();
+            String redirectUrl = display.getRedirectUrlTextBox().getText();
+            String landingPage = getLandingPageUrl();
             String url = constructLoginPageUrl(hostName, grantType, clientId, tenant, locale, redirectUrl);
-            openAndCloseWindow(url, "_blank", redirectUrl, userInfoUrl);
+            openAndCloseWindow(url, "_blank", landingPage, new WindowProps());
         });
 
     }
@@ -72,12 +107,16 @@ public class LoginDetailsPresenter {
         container.add(display.asWidget());
     }
 
+    public native static String getLandingPageUrl() /*-{
+        return $wnd.location.href;
+    }-*/;
+
     public native static String constructLoginPageUrl (String hostName, String grantType, String clientId, String tenant, String locale, String redirectUrl) /*-{
         return $wnd.constructUrl(hostName, tenant, locale, clientId, grantType, redirectUrl);
     }-*/;
 
-    public native static void openAndCloseWindow (String url, String target, String redirectUrl, String userInfoUrl) /*-{
-        var childWindow = $wnd.openWindow(url, target);
-        $wnd.closeWindowOnRedirect(childWindow, redirectUrl, userInfoUrl);
+    public native static void openAndCloseWindow (String url, String target, String landingPage, WindowProps windowProps) /*-{
+        var childWindow = $wnd.openWindow(url, target, windowProps);
+        $wnd.closeWindowOnRedirect(childWindow, landingPage);
     }-*/;
 }

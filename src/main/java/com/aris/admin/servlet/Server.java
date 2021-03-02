@@ -26,69 +26,85 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.UnknownHostException;
+import java.nio.file.AccessDeniedException;
+import java.util.Arrays;
 import java.util.Collection;
 
 public class Server extends HttpServlet {
     private static final long serialVersionUID = 1508982861969399325L;
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("doGet is invoked");
-        String authCode = req.getParameter("code");
-        String hostName = "10.248.91.205";
+        doOAuthLoginFlowAndGetUserInfo(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("doPost is invoked");
+        doOAuthLoginFlowAndGetUserInfo(req, resp);
+    }
+
+    private void doOAuthLoginFlowAndGetUserInfo(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        try {
+            String authCode = req.getParameter("code");
+            if (authCode == null || authCode.isEmpty()) {
+                throw new AccessDeniedException("The application has been denied access");
+            }
+            String host = req.getRequestURI();
+            System.out.println("host = " + host);
+
+            //TODO: Host name and tenant need to be parameterized and not hardcoded
+            String hostName = "sag-1xcymh2";
+            String tenant = "test03";
+            Person person;
+            ObjectMapper mapper = new ObjectMapper();
+            System.out.println("Reached redirectURI method...");
+            //Need to get the well known end point from the Auth Server...
+            JSONObject wellKnownEndpoints = requestWellKnownEndpoints(hostName, tenant);
+
+            String tokenEndpoint = getEndPoint(hostName, mapper, wellKnownEndpoints, "token_endpoint");
+
+            //Extract method
+            String userInfoEndpoint = getEndPoint(hostName, mapper, wellKnownEndpoints, "userinfo_endpoint");
+
+            System.out.println("Request accessToken...");
+            String accessToken = requestAccessToken(authCode, hostName, tokenEndpoint);
+            System.out.println("Obtained accessToken = " + accessToken);
+
+            System.out.println("Request UserInfo...");
+            JSONObject jsonObject = requestUserInfo(accessToken, hostName, userInfoEndpoint);
+            JSONObject json = createPersonObject(mapper, jsonObject);
+
+            //write to file and read from file
+            String path = "C:\\Users\\ADBA\\GWT-popup-Window\\src\\main\\java\\com\\aris\\admin\\shared\\person.properties";
+            System.out.println("Trying to write the user details to file = " + path);
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+                writer.write(json.toJSONString());
+                writer.close();
+                System.out.println("write completed successfully...");
+            } catch (FileNotFoundException e) {
+                System.out.println("error in writing to file");
+                e.printStackTrace();
+            }
+            finally {
+                resp.sendRedirect("/umc/userinfo1");
+            }
+        } catch (AccessDeniedException ex) {
+            resp.getWriter().write(ex.getLocalizedMessage());
+            resp.sendRedirect("/umc");
+        }
+    }
+
+    private JSONObject createPersonObject(ObjectMapper mapper, JSONObject jsonObject) {
         Person person;
-        ObjectMapper mapper = new ObjectMapper();
-        //Hostname will be available from the initial login web page call that this client makes
-
-/*    if (!Verifier.isValid(AuthCode)) {
-      // If the AuthCode is not valid, throw an IllegalArgumentException back to the client.
-      throw new IllegalArgumentException(
-          "Invalid Authorization Code has been provided...");
-    }*/
-        //Need to get the well known end point from the Auth Server...
-
-        System.out.println("Reached redirectURI method...");
-        JSONObject wellKnownEndpoints = requestWellKnownEndpoints(hostName);
-
-        String tokenEndpoint = getEndPoint(hostName, mapper, wellKnownEndpoints, "token_endpoint");
-
-        //Extract method
-        String userInfoEndpoint = getEndPoint(hostName, mapper, wellKnownEndpoints, "userinfo_endpoint");
-
-        System.out.println("Request accessToken...");
-        String accessToken = requestAccessToken(authCode, hostName, tokenEndpoint);
-        System.out.println("Obtained accessToken = " + accessToken);
-
-        System.out.println("Request UserInfo...");
-        JSONObject jsonObject =  requestUserInfo(accessToken, hostName, userInfoEndpoint);
         JSONObject json = mapper.convertValue(jsonObject.get(".APerson"), JSONObject.class);
         person = new Person();
         person.setFirstName(String.valueOf(json.get("firstname")));
         person.setLastName(String.valueOf(json.get("lastname")));
         person.setUserId(String.valueOf(json.get("name")));
         System.out.println("Obtained userInfo = " + person);
-
-        //resp.getWriter().write(json.toJSONString());
-        //writeToCookie(resp, json.toJSONString());
-
-        //check why cookie is not working - same domain problem
-
-        //write to file and read from file
-        String path = "C:\\Users\\ADBA\\GWT-popup-Window\\src\\main\\java\\com\\aris\\admin\\shared\\person.properties";
-        System.out.println("Trying to write the user details to file = " + path);
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path));
-            //pretty print
-            writer.write(json.toJSONString());
-            writer.close();
-            System.out.println("write completed successfully...");
-        } catch (FileNotFoundException e) {
-            System.out.println("error in writing to file");
-            e.printStackTrace();
-        }
-
-        //move to another auto close html page and then render the content
-
+        return json;
     }
 
     private void writeToCookie(HttpServletResponse resp, String json) {
@@ -99,33 +115,31 @@ public class Server extends HttpServlet {
         resp.addCookie(cookie);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("doPost is invoked");
-    }
-
-    private String getEndPoint(String hostName, ObjectMapper mapper, JSONObject wellKnownEndpoints, String endpoint) {
+    private String getEndPoint(String hostName, ObjectMapper mapper, JSONObject wellKnownEndpoints, String key) {
         String[] values;
-        Object endPoint = wellKnownEndpoints.get(endpoint);
+        System.out.println("hostname = " + hostName);
+        String ipRegex = "^https:\\/\\/((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?):[0-9]{3}";
+        Object endPoint = wellKnownEndpoints.get(key);
         System.out.println("Object value = " + endPoint);
-        String userInfo = mapper.convertValue(endPoint, String.class);
-        values = userInfo.split(hostName +":14480");
+        String convertValue = mapper.convertValue(endPoint, String.class);
+        values = convertValue.split(hostName + ":443");
+        System.out.println("values[] = " + Arrays.toString(values));
         String result = values[1];
         System.out.println("String value = " + result);
         return result;
     }
 
-    private JSONObject requestWellKnownEndpoints(String hostname) throws IOException {
+    private JSONObject requestWellKnownEndpoints(String hostname, String tenant) throws IOException {
         System.out.println("Reached wellKnownEndpoints call");
-        HttpGet wellKnownEndpointsRequest = new HttpGet("/umc/api/v1/oauth/knownurl?tenant=test01");
+        HttpGet wellKnownEndpointsRequest = new HttpGet("/umc/api/v1/oauth/knownurl?tenant=" + tenant);
         return fireRequestAndParseResponse(wellKnownEndpointsRequest, hostname);
     }
 
     private String requestAccessToken(String AuthCode, String hostName, String endpoint) throws IOException, UnknownHostException {
         System.out.println("Reached requestAccessToken call");
         HttpPost accessTokenRequest = new HttpPost(endpoint);
-        String clientId = "2de8e473-6e51-438c-aafa-6ae3e0c94ea5";
-        String clientSecret = "b13e7d08-9f29-4e22-89d8-9aa984ee4c3a";
+        String clientId = "0db781fc-4de5-47a4-9f21-e80440bfd370";
+        String clientSecret = "3728fbf6-adea-45e2-9b81-d6fc1bfb4ea6";
         String redirectUrl = "http://localhost:8080/umc/redirect";
         String scope = "UserProfile";
         final Collection<NameValuePair> formParams = ImmutableList.of(
@@ -135,7 +149,7 @@ public class Server extends HttpServlet {
                 new BasicNameValuePair("redirect_uri", redirectUrl),
                 new BasicNameValuePair("oauth_scope", scope),
                 new BasicNameValuePair("grant_type", "authorization_code"),
-                new BasicNameValuePair("tenant", "default")
+                new BasicNameValuePair("tenant", "test03")
 
         );
         String token =  fireRequestAndParseResponse(new UrlEncodedFormEntity(formParams, Charsets.UTF_8), accessTokenRequest, hostName);
